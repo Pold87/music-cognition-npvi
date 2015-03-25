@@ -1,0 +1,14 @@
+Python 2.7.9 (default, Dec 11 2014, 04:42:00) 
+[GCC 4.9.2] on linux2
+Type "help", "copyright", "credits" or "license" for more information.
+>>> >>> >>> >>> 4
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+  File "/home/pold/Dropbox/Uni/Radboud/Music_Cognition/nPVI/changertest2.py", line 15, in <module>
+    timeonyou_changer = nPVIchanger_noflat.nPVI_changer(song2)
+  File "nPVIchanger_noflat.py", line 19, in __init__
+    self.old_song = self.normalize_song(old_song)
+  File "nPVIchanger_noflat.py", line 56, in normalize_song
+    mustFinishInSpan)
+NameError: global name 'mustFinishInSpan' is not defined
+>>> 

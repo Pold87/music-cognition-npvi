@@ -1,0 +1,5 @@
+from music21 import *
+
+sBach = corpus.parse('bach/bwv7.7')
+
+print(len(sBach))

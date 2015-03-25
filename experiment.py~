@@ -1,0 +1,13 @@
+import nPVIchanger_noflat
+import music21
+from os import path, listdir
+
+
+base_path = "/home/pold/Documents/Uni/Radboud/Music_Cognition/nPVI/songs"
+
+songs = listdir(base_path)
+
+
+song1 = path.join(base_path, songs[2])
+
+song_changer = nPVIchanger_noflat.nPVI_changer(song1)

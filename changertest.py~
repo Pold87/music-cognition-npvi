@@ -1,0 +1,19 @@
+import nPVIchanger
+import music21
+
+dichterliebe_changer = nPVIchanger.nPVI_changer(
+    music21.corpus.parse('schumann/dichterliebe_no2.xml'))
+
+low_nPVI = dichterliebe_changer.find_lowest()
+high_nPVI = dichterliebe_changer.find_highest()
+noisy = dichterliebe_changer.add_noise()
+find25 = dichterliebe_changer.find_by_permutation(25, eps=3)
+
+print(music21.analysis.patel.nPVI(low_nPVI))
+print(music21.analysis.patel.nPVI(high_nPVI))
+print(music21.analysis.patel.nPVI(noisy))
+print(music21.analysis.patel.nPVI(find25))
+print(dichterliebe_changer.get_old_nPVI())
+
+
+# print(high_nPVI.show())

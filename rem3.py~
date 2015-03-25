@@ -1,0 +1,7 @@
+import music21
+
+base_path = "/home/pold/Dropbox/Uni/Radboud/Music_Cognition/nPVI/songs"
+parsed_song = music21.converter.parse(path.join(base_path,
+                                                "Entre_le_boeuf_et_lane_gris.xml_2.0.xml"))
+
+music21.analysis.patel.nPVI(parsed_song)
