@@ -14,11 +14,11 @@
     </scaling>
   </defaults>
   <part-list>
-    <score-part id="Pc7ab264eb07683f168926be6c37c20c2">
+    <score-part id="P84941464ce870d1456d89b644f684676">
       <part-name></part-name>
     </score-part>
   </part-list>
-  <part id="Pc7ab264eb07683f168926be6c37c20c2">
+  <part id="P84941464ce870d1456d89b644f684676">
     <measure number="1">
       <attributes>
         <divisions>10080</divisions>
@@ -35,11 +35,11 @@
         <direction-type>
           <metronome parentheses="no">
             <beat-unit>quarter</beat-unit>
-            <per-minute>140</per-minute>
+            <per-minute>120</per-minute>
           </metronome>
         </direction-type>
         <offset>0</offset>
-        <sound tempo="140.0"/>
+        <sound tempo="120.0"/>
       </direction>
       <note>
         <pitch>
@@ -785,165 +785,6 @@
         </pitch>
         <duration>20160</duration>
         <type>half</type>
-        <stem>up</stem>
-        <notehead>normal</notehead>
-        <notations/>
-      </note>
-      <note>
-        <pitch>
-          <step>D</step>
-          <octave>4</octave>
-        </pitch>
-        <duration>10080</duration>
-        <type>quarter</type>
-        <stem>up</stem>
-        <notehead>normal</notehead>
-        <notations/>
-      </note>
-      <note>
-        <chord/>
-        <pitch>
-          <step>F</step>
-          <octave>4</octave>
-        </pitch>
-        <duration>10080</duration>
-        <type>quarter</type>
-        <stem>up</stem>
-        <notehead>normal</notehead>
-        <notations/>
-      </note>
-      <note>
-        <pitch>
-          <step>D</step>
-          <octave>4</octave>
-        </pitch>
-        <duration>10080</duration>
-        <tie type="start"/>
-        <type>quarter</type>
-        <stem>up</stem>
-        <notehead>normal</notehead>
-        <notations>
-          <tied type="start"/>
-        </notations>
-      </note>
-      <note>
-        <chord/>
-        <pitch>
-          <step>F</step>
-          <octave>4</octave>
-        </pitch>
-        <duration>10080</duration>
-        <tie type="start"/>
-        <type>quarter</type>
-        <stem>up</stem>
-        <notehead>normal</notehead>
-        <notations>
-          <tied type="start"/>
-        </notations>
-      </note>
-    </measure>
-    <measure number="9">
-      <attributes>
-        <divisions>10080</divisions>
-      </attributes>
-      <note>
-        <pitch>
-          <step>D</step>
-          <octave>4</octave>
-        </pitch>
-        <duration>5040</duration>
-        <tie type="stop"/>
-        <type>eighth</type>
-        <stem>up</stem>
-        <notehead>normal</notehead>
-        <beam number="1">begin</beam>
-        <notations>
-          <tied type="stop"/>
-        </notations>
-      </note>
-      <note>
-        <chord/>
-        <pitch>
-          <step>F</step>
-          <octave>4</octave>
-        </pitch>
-        <duration>5040</duration>
-        <tie type="stop"/>
-        <type>eighth</type>
-        <stem>up</stem>
-        <notehead>normal</notehead>
-        <notations>
-          <tied type="stop"/>
-        </notations>
-      </note>
-      <note>
-        <pitch>
-          <step>F</step>
-          <octave>4</octave>
-        </pitch>
-        <duration>5040</duration>
-        <type>eighth</type>
-        <stem>up</stem>
-        <notehead>normal</notehead>
-        <beam number="1">end</beam>
-        <notations/>
-      </note>
-      <note>
-        <chord/>
-        <pitch>
-          <step>A</step>
-          <octave>4</octave>
-        </pitch>
-        <duration>5040</duration>
-        <type>eighth</type>
-        <stem>up</stem>
-        <notehead>normal</notehead>
-        <notations/>
-      </note>
-      <note>
-        <pitch>
-          <step>F</step>
-          <octave>4</octave>
-        </pitch>
-        <duration>5040</duration>
-        <type>eighth</type>
-        <stem>up</stem>
-        <notehead>normal</notehead>
-        <beam number="1">begin</beam>
-        <notations/>
-      </note>
-      <note>
-        <chord/>
-        <pitch>
-          <step>A</step>
-          <octave>4</octave>
-        </pitch>
-        <duration>5040</duration>
-        <type>eighth</type>
-        <stem>up</stem>
-        <notehead>normal</notehead>
-        <notations/>
-      </note>
-      <note>
-        <pitch>
-          <step>E</step>
-          <octave>4</octave>
-        </pitch>
-        <duration>5040</duration>
-        <type>eighth</type>
-        <stem>up</stem>
-        <notehead>normal</notehead>
-        <beam number="1">end</beam>
-        <notations/>
-      </note>
-      <note>
-        <chord/>
-        <pitch>
-          <step>G</step>
-          <octave>4</octave>
-        </pitch>
-        <duration>5040</duration>
-        <type>eighth</type>
         <stem>up</stem>
         <notehead>normal</notehead>
         <notations/>

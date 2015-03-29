@@ -2,6 +2,9 @@ from __future__ import print_function
 import music21
 import numpy as np
 import copy
+from subprocess import call
+import pandas as pd
+import numpy as np
 
 
 class nPVI_changer():
@@ -52,17 +55,31 @@ class nPVI_changer():
 
             normalized_song.append(note)
 
-        bpm = 140
+        bpm = 120
+
+        ts = music21.meter.TimeSignature('200/4')
+        normalized_song.insert(0, ts)
 
         t = music21.tempo.MetronomeMark(number=bpm)
         normalized_song.insert(0, t)
 
+
         needed_offset = bpm * desired_seconds / 60
         normalized_song = normalized_song.getElementsByOffset(0,
                                                               needed_offset,
-                                                              mustFinishInSpan = True)
+                                                              mustFinishInSpan = True,
+                                                              includeEndBoundary=True,
+                                                              mustBeginInSpan=False)
 
         return normalized_song
+
+    def final_update(self, song):
+        bpm = 120
+        t = music21.tempo.MetronomeMark(number=bpm)
+        song.insert(0, t)
+        return song
+
+
 
     def get_notes(self, song):
 
@@ -83,12 +100,16 @@ class nPVI_changer():
     def get_new_nPVI(self):
         return music21.analysis.patel.nPVI(self.new_song.notesAndRests)
 
-    def update(self, new_song):
+    def update(self, new_song, normalize = True):
 
-        new_song = self.normalize_song(new_song)
-        self.new_song = new_song
-        self.new_notes = self.get_notes(self.new_song)
-        self.new_durations = self.get_durations(self.new_song)
+        final_new_song = new_song
+
+        if normalize:
+            final_new_song = self.normalize_song(final_new_song)
+
+        self.new_song = final_new_song
+        self.new_notes = self.get_notes(final_new_song)
+        self.new_durations = self.get_durations(final_new_song)
 
 
     def normalize_durations(self, x, min_value=0.05):
@@ -103,22 +124,14 @@ class nPVI_changer():
 
     # Low-level nPVI changer
 
-    def change_nPVI(self, new_durations, do_update=False):
+    def change_nPVI(self, new_durations, do_update=False, do_write_and_load = False):
         """
         Actually change a song's note length distrbution
         """
 
         new_song = music21.stream.Stream()
 
-        bpm = 140
-
-        t = music21.tempo.MetronomeMark(number=bpm)
-        new_song.insert(0, t)
-
         for n, d in zip(self.new_song.flat.notesAndRests, new_durations):
-
-            if isinstance(n, music21.harmony.ChordSymbol):
-                continue
 
             if n.isRest:
                 new_n = music21.note.Rest()
@@ -130,8 +143,15 @@ class nPVI_changer():
             new_n.quarterLength = d
             new_song.append(new_n)
 
+
+        if do_write_and_load:
+            new_song.write("xml", "/home/pold/npvi/tmp.xml")
+            new_song = music21.converter.parse("/home/pold/npvi/tmp.xml")
+
+        new_song = self.normalize_song(new_song)
+
         if do_update:
-            self.update(new_song)
+            self.update(new_song, False)
 
         return new_song
 
@@ -143,7 +163,7 @@ class nPVI_changer():
         vmakepositive = np.vectorize(self.normalize_durations)
         new_durations = vmakepositive(new_durations)
 
-        return self.change_nPVI(new_durations, True)
+        return self.change_nPVI(new_durations, True, True)
 
 
     # High-level nPVI changer.
@@ -160,16 +180,30 @@ class nPVI_changer():
         noise = np.random.uniform(low, high)
         return self.add_noise(noise)
 
-    def find_by_permutation(self, goal, eps=5, n=100000):
+    def find_by_permutation(self, goal, eps=5, n=100000, max_sd = 1, min_sd = 0):
         for i in range(n):
             new_durations = np.random.permutation(self.new_durations)
             new_song = self.change_nPVI(new_durations, False)
+
             new_nPVI = music21.analysis.patel.nPVI(new_song.notesAndRests)
+
+            midisong = "/home/pold/npvi/tmp.mid"
+            new_song.write("midi", midisong)
+            metricness = self.get_metricness(midisong)
+
+            if metricness > max_sd or metricness < min_sd:
+                continue
+
             if abs(new_nPVI - goal) < eps:
+
+                # for n in new_song:
+                #     print(n)
+                #     print(n.offset)
                 print("Found nPVI")
-                self.update(new_song)
-                print(self.get_new_nPVI())
+                print(new_nPVI)
+                self.update(new_song, False)
                 return new_song
+
 
     def find_lowest(self):
         new_durations = np.sort(self.new_durations)
@@ -227,4 +261,23 @@ class nPVI_changer():
             overlayed_song.append(new_n)
         self.update(overlayed_song)
         return overlayed_song
+
+    def get_metricness(self, midisong, do_print = False):
+
+        beatroot_path = "/home/pold/Downloads/beatroot-0.5.8.jar"
+        beat_folder = "/home/pold/npvi/"
+        file_name = "tmpcsv.csv" # TODO: automatically assign file name
+        call(["java", "-jar", beatroot_path, "-o", beat_folder + file_name, midisong])
+
+        timestamps = np.genfromtxt(beat_folder + file_name, delimiter=',')
+        durations = np.diff(timestamps)
+
+        sd = np.std(durations)
+
+        if do_print:
+            print("Durations", durations)
+            print("SD", sd)
+
+        return sd
+
 
