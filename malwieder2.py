@@ -3,35 +3,24 @@ import nPVIchanger_noflat as changer
 import music21 as m21
 from subprocess import call
 from copy import deepcopy
+import numpy as np
+
+songpath = "/home/pold/npvi/dragon20metrical.mid"
+song = m21.converter.parse(songpath)
 
 
-base_path = "/home/pold/Dropbox/Uni/Radboud/Music_Cognition/nPVI/songs/"
-
-extension = "xml"
-f = "/home/pold/npvi/tmp." + extension
-
-song2 = m21.converter.parseFile(f)
-
-# Create a changer object
-# Changer objects can manipulate the nPVI of songs
-# They are constructed by passing a song (the 'old song') and
-# create a 'new song' based on the chosen modifications
-song_changer = changer.nPVI_changer(song2)
+song_changer = changer.nPVI_changer(song)
 
 
-print("nPVI is: ")
-print(song_changer.get_new_nPVI())
-
-print("read nPVI is")
-print(m21.analysis.patel.nPVI(song2.flat.notesAndRests))
-
-for n in song2.flat.notesAndRests:
-    print(n)
-    print(n.offset)
-
+song_changer.get_metricness(songpath, do_print=True)
 
 # song2.show()
 
+diff = np.diff(np.genfromtxt("/home/pold/npvi/dragon20m.csv", delimiter='\n'))
+
+print(diff)
+
+print(np.std(diff))
 
 # song_changer.new_song.show()
 

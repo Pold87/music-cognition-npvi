@@ -4,43 +4,44 @@ import music21 as m21
 from subprocess import call
 from copy import deepcopy
 
+original_song = 'Tetris_Type_A_-_Korobeiniki.xml'
+file_name = original_song.split('_')[0]
+
+desired_npvi = 40
+metrical = True
+
+if metrical:
+    namepart = "metrical"
+    max_sd = 0.05
+    min_sd = 0
+else:
+    namepart = "nonmetrical"
+    max_sd = 1
+    min_sd = 0.20
+
+output = "/home/pold/npvi/" + file_name + str(desired_npvi) + "_" + namepart + ".mid"
 
 base_path = "/home/pold/Dropbox/Uni/Radboud/Music_Cognition/nPVI/songs/"
 
-song = m21.converter.parse(base_path + 'Tetris_Type_A_-_Korobeiniki.xml')
+song = m21.converter.parse(base_path + original_song)
 
 # Create a changer object
 # Changer objects can manipulate the nPVI of songs
 # They are constructed by passing a song (the 'old song') and
 # create a 'new song' based on the chosen modifications
 song_changer = changer.nPVI_changer(song)
-
+nPVI= song_changer.get_new_nPVI()
+print('nPVI', nPVI)
+#lowest_nPVI = song_changer.find_lowest(True)
+#print('lowest', song_changer.get_new_nPVI())
+#highest_nPVI = song_changer.find_highest(True)
+#print('highest', song_changer.get_new_nPVI())
 # Find highest nPVI by intercepting note durations (short - long, short - long)
-
 # song_changer.add_gaussian_noise(sd = 0.01)
-# song_changer.find_lowest()
 
-song_changer.find_by_permutation(30, 5, min_sd=0.035)
-
+song_changer.find_incrementally_from_lowest(desired_npvi, 2, min_sd=min_sd, max_sd=max_sd)
 
 print("nPVI is: ")
 print(song_changer.get_new_nPVI())
-
-song_changer.new_song.write("midi", "/home/pold/npvi/tetris30.mid")
-
-#Test
-#song_changer.new_song.show()
-extension = "xml"
-#file = "/home/pold/npvi/tmp." + extension
-#song_changer.new_song.write(extension, file)
-#song2 = m21.converter.parseFile(file)
-#print("read nPVI is")
-#print(m21.analysis.patel.nPVI(song2.flat.notesAndRests))
-
-song_changer.get_metricness("/home/pold/npvi/tetris30.mid")
-
-# song2.show()
-
-
-# song_changer.new_song.show()
-
+song_changer.new_song.write("midi", output)
+print("Wrote to", output)
